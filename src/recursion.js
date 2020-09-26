@@ -55,19 +55,21 @@ var sumBelow = function(n) {
 
 // 6. Get the integers within a range (x, y).
 // range(2,9); // [3,4,5,6,7,8]
-var range = function(x, y, results = []) {
+var range = function(x, y) {
+  let result = [];
+
   if (x === y) return [];
-  if (x === y - 1) return results;
-  if (y === x - 1) return results;
+  if (x === y - 1 || x - 1 === y) return result;
 
-  if (y > x) {
-    results.push(x += 1);
-    return range(x, y, results);
+  if (x < y) {
+    result.push(x += 1);
 
-  } else {
-    results.push(x -= 1);
-    return range(x, y, results);
-  }
+    } else {
+    result.push(x -= 1);
+   }
+
+  result = result.concat(range(x, y))
+  return result;
 };
 
 // 7. Compute the exponent of a number.
@@ -92,8 +94,32 @@ var exponent = function(base, exp) {
 // powerOfTwo(1); // true
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
-var powerOfTwo = function(n) {
 
+// var powerOfTwo = function(n, result = 1) {
+//   if (n === 1 || result === n) return true;
+//   if (result > n) return false;
+
+//   return powerOfTwo(n, result *= 2)
+// };
+
+var powerOfTwo = function(n) {
+  let result = 1;
+
+  let helper = function(n) {
+    if (n === 1) return true;
+
+    result *= 2;
+
+    if (result === n) {
+      return true;
+    }
+
+    if (result > n) {
+      return false;
+    }
+   return helper(n);
+  }
+  return helper(n);
 };
 
 // 9. Write a function that reverses a string.
@@ -113,9 +139,7 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
-  if (x < y) return x;
 
-  return modulo(x - y, y)
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
